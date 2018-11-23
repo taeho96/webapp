@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Fine dust</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href='bootstrap/css/main.css' />
+		<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<div id="header">
+
+				<div class="top">
+
+					<!-- Logo -->
+						<div id="logo">
+							<span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span>
+							<h1 id="title">Taeho</h1>
+							<p>Student</p>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="#top" id="top-link"><span class="icon fa-home">Intro</span></a></li>
+								<li><a href="#portfolio" id="portfolio-link"><span class="icon fa-desktop">Deep Learning</span></a></li>
+								<li><a href="#about" id="about-link"><span class="icon fa-code">Process</span></a></li>
+								<li><a href="#contact" id="contact-link"><span class="icon fa-database">Data</span></a></li>
+							</ul>
+						</nav>
+
+				</div>
+
+				<div class="bottom">
+
+					<!-- Social Icons -->
+						<ul class="icons">
+							<li><a href="https://twitter.com/"  class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="https://www.facebook.com/groups/TensorFlowKR/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="https://github.com/hunkim/DeepLearningZeroToAll" class="icon fa-github"><span class="label">Github</span></a></li>
+							<li><a href="https://dribbble.com/" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="https://mail.google.com/" class="icon fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+
+				</div>
+
+			</div>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Intro -->
+					<section id="top" class="one dark cover">
+						<div class="container">
+
+							<header>
+								<h2 class="alt"><strong>딥 러닝</strong>을 이용한 미세먼지 예측 시스템</h2>
+								<p>Recurrent Neural Networks(RNN) - Long Short-Term Memory nodels(LSTM)<br />
+								서울 종로구의 데이터 사용</p>
+							</header>
+
+							<footer>
+								<a href="#portfolio" class="button scrolly">실행 결과</a>
+							</footer>
+
+						</div>
+					</section>
+
+					<!-- Contact -->
+					<section id="portfolio" class="four">
+						<div class="container">
+
+							<header>
+								<h2>미래 데이터 예측해보기</h2>
+							</header>
+							<p> 총 4일의 데이터를 입력하면 50일의 미세먼지 농도를 예측해 볼 수 있다.</p>
+
+							<!--Grid row-->
+        			<div class="content row.aln.middle">
+
+			          <!--Grid column-->
+			          <div class="">
+
+			            <form action="/" method="post">
+			              <!-- Default form group -->
+
+		                  <!-- Default input -->
+		                  <div>
+		                      <label>1일</label>
+		                      <input type="text" name="day1" id="formGroupExampleInput" placeholder="입력하시오.">
+		                  </div>
+		                  <!-- Default input -->
+		                  <div>
+		                      <label>2일</label>
+		                      <input type="text" name="day2" id="formGroupExampleInput" placeholder="입력하시오.">
+		                  </div>
+		                  <!-- Default input -->
+		                  <div>
+		                      <label>3일</label>
+		                      <input type="text" name="day3" id="formGroupExampleInput" placeholder="입력하시오.">
+		                  </div>
+		                  <!-- Default input -->
+		                  <div>
+		                      <label>4일</label>
+		                      <input type="text" name="day4" id="formGroupExampleInput" placeholder="입력하시오.">
+		                  </div>
+		              		<!-- Default form group -->
+
+				              <button type="submit" style="margin:" class="pull-right">예측하기</button>
+
+            			</form>
+
+          			</div>
+          			<!--/Grid column-->
+							</div>
+							<!--/Grid row-->
+
+								<!--Grid column-->
+			          <footer>
+									<header>
+			            	<h3 class="">예측 결과</h3>
+									</header>
+										<p>
+			              	<h5 class="text-center mt-3">예측된 농도는 <%= result%> 입니다.</h5>
+										</p>
+			          </footer>
+			          <!--/Grid column-->
+
+							</div>
+						</section>
+
+				<!-- Portfolio -->
+					<section id="about" class="two">
+						<div class="container">
+
+							<header>
+								<h2>날짜 지정</h2>
+							</header>
+              <form action="/date" method="post">
+							 <p>
+                 <div>
+                   시작일:
+                   <input type="date" name="start" min="2015-01-01" max="2016-01-01">
+                   마지막일:
+                   <input type="date" name="end" min="2016-01-01" max="2016-11-30">
+                   <button type="submit">그래프 그리기</button>
+                 </div>
+                <%= start %> 01:00 AM 부터 1시간 간격으로 <%= end %> 23:00 PM 까지의<br />
+								예측 데이터를	실제 데이터와 비교한 그래프</p>
+								<div id="myDiv"></div>
+								  <script>
+									Plotly.d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv", function(err, rows){
+
+										function unpack(rows, key) {
+										return rows.map(function(row) { return row[key]; });
+										}
+
+
+										var trace1 = {
+										type: "scatter",
+										mode: "lines",
+										name: 'AAPL High',
+										x: unpack(rows, 'Date'),
+										y: unpack(rows, 'AAPL.High'),
+										line: {color: '#17BECF'}
+										}
+
+										var trace2 = {
+										type: "scatter",
+										mode: "lines",
+										name: 'AAPL Low',
+										x: unpack(rows, 'Date'),
+										y: unpack(rows, 'AAPL.Low'),
+										line: {color: '#7F7F7F'}
+										}
+
+										var data = [trace1,trace2];
+
+										var layout = {
+										title: 'Basic Time Series',
+										};
+
+										Plotly.newPlot('myDiv', data, layout);
+										})
+								  </script>
+
+          <!--    <a href="#" class="image featured"><img src="images/compare.JPG" alt="" /></a> -->
+
+						</div>
+					</section>
+
+				<!-- About Me -->
+					<section id="contact" class="three">
+						<div class="container">
+
+							<header>
+								<h2>학습 과정</h2>
+							</header>
+
+							<a href="#" class="image featured"><img src="images/study_graph.jpg" alt="" /></a>
+							<p>오직 과거의 미세먼지(PM10) 데이터만을 이용해 모델을 학습시켜 <br />예측 데이터와 실제 데이터를 비교한 경우</p>
+							<a href="#" class="image featured"><img src="images/many01.jpg" alt="" /></a>
+							<a href="#" class="image featured"><img src="images/many02.jpg" alt="" /></a>
+							<p>기온, 풍속, 풍향, 습도, 기압 등 수많은 데이터를 이용해 <br />모델을 학습시켜 예측 데이터와 실제 데이터를 비교한 경우</p>
+
+
+						</div>
+					</section>
+
+
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+
+				<!-- Copyright -->
+					<ul class="copyright">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../bower_components/d3/d3.min.js"></script>
+			<script src="bootstrap/js/jquery.min.js"></script>
+			<script src="bootstrap/js/jquery.scrolly.min.js"></script>
+			<script src="bootstrap/js/jquery.scrollex.min.js"></script>
+      <script src="bootstrap/js/browser.min.js"></script>
+			<script src="bootstrap/js/breakpoints.min.js"></script>
+			<script src="bootstrap/js/util.js"></script>
+			<script src="bootstrap/js/main.js"></script>
+			<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+	</body>
+</html>
