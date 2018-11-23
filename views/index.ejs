@@ -85,7 +85,22 @@
 
 			            <form action="/" method="post">
 			              <!-- Default form group -->
-
+										<table>
+											<tr>
+												<td name="time"></td>
+												<td name="time"></td>
+												<td name="time"></td>
+												<td name="time"></td>
+												<td name="time"></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</table>
 		                  <!-- Default input -->
 		                  <div>
 		                      <label>1일</label>
@@ -136,50 +151,70 @@
 						<div class="container">
 
 							<header>
-								<h2>날짜 지정</h2>
+								<h2>예측 정확도 확인</h2>
 							</header>
               <form action="/date" method="post">
 							 <p>
-                 <div>
-                   시작일:
-                   <input type="date" name="start" min="2015-01-01" max="2016-01-01">
-                   마지막일:
-                   <input type="date" name="end" min="2016-01-01" max="2016-11-30">
-                   <button type="submit">그래프 그리기</button>
-                 </div>
-                <%= start %> 01:00 AM 부터 1시간 간격으로 <%= end %> 23:00 PM 까지의<br />
-								예측 데이터를	실제 데이터와 비교한 그래프</p>
+
+                2015년 1월 1일 01:00 AM 부터 2016년 12월 7일 23:00 PM 까지의<br />
+								1시간 간격의 예측 데이터를	실제 데이터와 비교한 그래프</p>
 								<div id="myDiv"></div>
 								  <script>
-									Plotly.d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv", function(err, rows){
+									Plotly.d3.csv("data/output.csv", function(err, rows){
 
-										function unpack(rows, key) {
-										return rows.map(function(row) { return row[key]; });
+										  function unpack(rows, key) {
+										  return rows.map(function(row) { return row[key]; });
 										}
 
 
 										var trace1 = {
-										type: "scatter",
-										mode: "lines",
-										name: 'AAPL High',
-										x: unpack(rows, 'Date'),
-										y: unpack(rows, 'AAPL.High'),
-										line: {color: '#17BECF'}
+										  type: "scatter",
+										  mode: "lines",
+											name: 'Prediction',
+										  x: unpack(rows, 'Date'),
+										  y: unpack(rows, 'Pred'),
+										  line: {color: '#17BECF'}
 										}
 
 										var trace2 = {
-										type: "scatter",
-										mode: "lines",
-										name: 'AAPL Low',
-										x: unpack(rows, 'Date'),
-										y: unpack(rows, 'AAPL.Low'),
-										line: {color: '#7F7F7F'}
+										  type: "scatter",
+										  mode: "lines",
+											name: 'Real Data',
+										  x: unpack(rows, 'Date'),
+										  y: unpack(rows, 'Real'),
+										  line: {color: '#7F7F7F'}
 										}
 
 										var data = [trace1,trace2];
 
 										var layout = {
-										title: 'Basic Time Series',
+										  title: '실측값 비교 그래프 ',
+										  xaxis: {
+												autorange: true,
+										    range: ['2015-01-01', '2016-12-31'],
+												rangeselector: {buttons: [
+											        {
+											          count: 1,
+											          label: '1m',
+											          step: 'month',
+											          stepmode: 'backward'
+											        },
+											        {
+											          count: 6,
+											          label: '6m',
+											          step: 'month',
+											          stepmode: 'backward'
+											        },
+											        {step: 'all'}
+											      ]},
+											  rangeslider: {range: ['2015-01-01', '2016-12-31']},
+										    type: 'date'
+										  },
+										  yaxis: {
+										    autorange: true,
+										    range: [15.8700008333, 158.870004167],
+										    type: 'linear'
+										  }
 										};
 
 										Plotly.newPlot('myDiv', data, layout);

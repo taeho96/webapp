@@ -17,6 +17,8 @@
     "node-sass-middleware": "0.11.0",
     "nodemon": "^1.18.6",
     "python-shell": "^1.0.6",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "urlencode": "^1.1.0",
+    "xml2js": "^0.4.19"
   }
 }

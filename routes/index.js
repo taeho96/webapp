@@ -1,28 +1,39 @@
 var express = require('express');
 var request = require('request');
+var bodyParser = require('body-parser');
 var router = express.Router();
+var xml2js = require('xml2js');
+var parser = new xml2js.Parser();
+var fs = require('fs');
 const ps = require('python-shell');
-var result = ' ';
+var urlencode = require('urlencode')
 
+
+var result = ' ';
+var datetime;
+var pm10;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  var service_key = 'ibuT0mjan%2FJ8ri2lFCSFWlDTuoIJ84M811nBburkoQAG9FaGb0JhSB0FpgrjQVAZ5iyZdzlHsthfqCCrBOakYw%3D%3D';
+  var xml = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=ibuT0mjan%2FJ8ri2lFCSFWlDTuoIJ84M811nBburkoQAG9FaGb0JhSB0FpgrjQVAZ5iyZdzlHsthfqCCrBOakYw%3D%3D&numOfRows=5&pageSize=5&pageNo=1&startPage=1&stationName=%EC%A2%85%EB%A1%9C%EA%B5%AC&dataTerm=DAILY&ver=1.3&_returnType=json';
 
-  var url = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty';
-  var queryParams = '?staionName=종로구&dataTerm=DAILY&pageNo=1&numOfRows=10&ServiceKey=' + service_key + '&ver=1.3';
-  var response = ' ';
   request({
-    url: url + queryParams,
+    encoding: "utf-8",
+    url: xml,
     method: 'GET'
   }, function (error, response, body) {
-    console.log('Reponse received', body);
-      resopnse = response;
+    if(error) {
+      console.log(error);
+    } else{
 
-});
+      console.log('Reponse received', body.dataTime);
+      datetime = body['dataTime'];
+      pm10 = body['pmValue'];
+    }
+    });
 
-  res.render('index', { result: ' ', start:'시작일', end:'마지막일', resopnse: response});
+  res.render('index', { result: ' ', start:'시작일', end:'마지막일' });
 });
 
 
