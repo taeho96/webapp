@@ -8,15 +8,18 @@ var fs = require('fs');
 const ps = require('python-shell');
 var urlencode = require('urlencode')
 
+router.use(bodyParser.urlencoded({extended:false}));
+router.use(bodyParser.json());
 
 var result = ' ';
-var datetime;
-var pm10;
+var datelist = [];
+var pmlist = [];
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
   var xml = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=ibuT0mjan%2FJ8ri2lFCSFWlDTuoIJ84M811nBburkoQAG9FaGb0JhSB0FpgrjQVAZ5iyZdzlHsthfqCCrBOakYw%3D%3D&numOfRows=5&pageSize=5&pageNo=1&startPage=1&stationName=%EC%A2%85%EB%A1%9C%EA%B5%AC&dataTerm=DAILY&ver=1.3&_returnType=json';
+
 
   request({
     encoding: "utf-8",
@@ -25,22 +28,19 @@ router.get('/', function(req, res, next) {
   }, function (error, response, body) {
     if(error) {
       console.log(error);
+      res.end(body);
     } else{
+        var allData = JSON.parse(body);
 
-      console.log('Reponse received', body.dataTime);
-      datetime = body['dataTime'];
-      pm10 = body['pmValue'];
+        for(var i=0; i<allData.list.length; i++) {
+
+          datelist.push(allData.list[i].dataTime);
+          pmlist.push(allData.list[i].pm10Value);
+
+      }
     }
-    });
-
-  res.render('index', { result: ' ', start:'시작일', end:'마지막일' });
-});
-
-
-router.post('/', function(req, res) {
+  });
   console.log(req.body);
-
-
   var options = {
     mode: 'text',
     pythonPath: '',
@@ -56,16 +56,11 @@ router.post('/', function(req, res) {
 
   });
 
-  res.render('index', {result:result, start:'시작일', end:'마지막일', method:"post"})
+  console.log(datelist[0]);
+  res.render('index', {datelist: datelist, pmlist: pmlist, result: result});
 });
 
-router.post('/date', function(req, res){
-console.log(req.body);
 
-  var start = req.body.start;
-  var end = req.body.end;
 
-  res.render('index', {result: ' ', start:start, end:end, method:"post"})
-});
 
 module.exports = router;

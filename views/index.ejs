@@ -75,7 +75,7 @@
 							<header>
 								<h2>미래 데이터 예측해보기</h2>
 							</header>
-							<p> 총 4일의 데이터를 입력하면 50일의 미세먼지 농도를 예측해 볼 수 있다.</p>
+							<p> 총 4시간의 데이터를 입력하면 5시간 째의 미세먼지 농도를 예측해 볼 수 있다.</p>
 
 							<!--Grid row-->
         			<div class="content row.aln.middle">
@@ -83,42 +83,51 @@
 			          <!--Grid column-->
 			          <div class="">
 
-			            <form action="/" method="post">
+			            <form action="/" method="get">
 			              <!-- Default form group -->
+
 										<table>
 											<tr>
-												<td name="time"></td>
-												<td name="time"></td>
-												<td name="time"></td>
-												<td name="time"></td>
-												<td name="time"></td>
+												<% for (var i = 0;i < 5;i++){ %>
+													<td><%= datelist[i]%> </td>
+												<% } %>
 											</tr>
 											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
+												<td>
+													<%= pmlist[0]%>
+												</td>
+												<td>
+													<%= pmlist[1] %>
+												</td>
+												<td>
+													<%= pmlist[2] %>
+												</td>
+												<td>
+													<%= pmlist[3] %>
+												</td>
+												<td>
+													<%= pmlist[4] %>
+												</td>
 											</tr>
 										</table>
 		                  <!-- Default input -->
 		                  <div>
-		                      <label>1일</label>
+		                      <label>1번째 입력</label>
 		                      <input type="text" name="day1" id="formGroupExampleInput" placeholder="입력하시오.">
 		                  </div>
 		                  <!-- Default input -->
 		                  <div>
-		                      <label>2일</label>
+		                      <label>2번째 입력</label>
 		                      <input type="text" name="day2" id="formGroupExampleInput" placeholder="입력하시오.">
 		                  </div>
 		                  <!-- Default input -->
 		                  <div>
-		                      <label>3일</label>
+		                      <label>3번째 입력</label>
 		                      <input type="text" name="day3" id="formGroupExampleInput" placeholder="입력하시오.">
 		                  </div>
 		                  <!-- Default input -->
 		                  <div>
-		                      <label>4일</label>
+		                      <label>4번째 입력</label>
 		                      <input type="text" name="day4" id="formGroupExampleInput" placeholder="입력하시오.">
 		                  </div>
 		              		<!-- Default form group -->
@@ -153,9 +162,8 @@
 							<header>
 								<h2>예측 정확도 확인</h2>
 							</header>
-              <form action="/date" method="post">
-							 <p>
 
+							 <p>
                 2015년 1월 1일 01:00 AM 부터 2016년 12월 7일 23:00 PM 까지의<br />
 								1시간 간격의 예측 데이터를	실제 데이터와 비교한 그래프</p>
 								<div id="myDiv"></div>
